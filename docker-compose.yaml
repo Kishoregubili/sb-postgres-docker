@@ -1,0 +1,26 @@
+services:
+   postgres-db:
+      ports:
+         - 5432:5432
+      container_name: postgres-container
+      image : kishoregubili/postgres
+      environment:
+         - POSTGRES_DB=mydb01
+         - POSTGRES_USER=kishore
+         - POSTGRES_PASSWORD=kishore
+      volumes:
+         -  C:\postgres-container-data:/var/lib/postgresql/data
+      restart : always
+   sb-crud:
+      build: .
+      container_name:  sb-crud-container
+      ports :
+         - 9090:9090
+      environment:
+         db-url : jdbc:postgresql:/postgres-db:5432/mydb01
+         db-username: kishore
+         db-password: kishore
+      depends_on:
+         -  postgres-db
+      restart: always
+
